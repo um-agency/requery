@@ -6,12 +6,8 @@ targetCompatibility = 1.7
 dependencies {
     compileOnly 'javax.transaction:javax.transaction-api:1.2'
     compileOnly 'javax.cache:cache-api:1.0.0'
-    compileOnly "io.reactivex:rxjava:$rxjava_version"
-    compileOnly "io.reactivex.rxjava2:rxjava:$rxjava2_version"
-    compileOnly "io.projectreactor:reactor-core:$reactor_version"
+    compileOnly "io.reactivex:rxjava:$rxjava"
+    compileOnly "io.reactivex.rxjava2:rxjava:$rxjava2"
+    compileOnly "io.projectreactor:reactor-core:$reactor"
     compileOnly 'com.google.code.findbugs:jsr305:3.0.1'
-}
-
-javadoc {
-    classpath += configurations.compileOnly
 }
