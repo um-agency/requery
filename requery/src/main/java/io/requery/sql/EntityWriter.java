@@ -51,10 +51,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static io.requery.query.element.QueryType.UPDATE;
 
@@ -549,6 +551,14 @@ class EntityWriter<E extends S, S> implements ParameterBinder<E> {
                        Predicate<Attribute<E, ?>> filterBindable,
                        Predicate<Attribute<E, ?>> filterAssociations) {
 
+        // save original modified state
+        final Set<String> modifiedAttributes = new HashSet<>();
+        for (Attribute<E, ?> value : bindableAttributes) {
+            if (proxy.getState(value) == PropertyState.MODIFIED) {
+                modifiedAttributes.add(value.getName());
+            }
+        }
+
         context.getStateListener().preUpdate(entity, proxy);
         // updates the entity using a query (not the query values are not specified but instead
         // mapped directly to avoid boxing)
@@ -638,6 +648,13 @@ class EntityWriter<E extends S, S> implements ParameterBinder<E> {
             }
             if (result > 0) {
                 updateAssociations(mode, entity, proxy, filterAssociations);
+            } else {
+                for (Attribute<E, ?> value : bindableAttributes) {
+                    if (proxy.getState(value) != PropertyState.MODIFIED
+                            && modifiedAttributes.contains(value.getName())) {
+                        proxy.setState(value, PropertyState.MODIFIED);
+                    }
+                }
             }
         } else {
             updateAssociations(mode, entity, proxy, filterAssociations);
