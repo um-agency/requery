@@ -18,7 +18,7 @@ package io.requery.android;
 
 import android.database.Cursor;
 import android.os.Handler;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import io.requery.meta.EntityModel;
 import io.requery.meta.Type;
 import io.requery.proxy.EntityProxy;
@@ -36,7 +36,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * An implementation of {@link android.support.v7.widget.RecyclerView.Adapter} specifically for
+ * An implementation of {@link RecyclerView.Adapter} specifically for
  * displaying items from a {@link EntityDataStore} query. To use extend  this class and implement
  * {@link #performQuery()} and {@link #onBindViewHolder(Object, RecyclerView.ViewHolder, int)}.
  *
